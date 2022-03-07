@@ -1,28 +1,28 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <BoardHeader></BoardHeader>
+    <BoardBody></BoardBody>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import BoardHeader from "./components/BoardHeader.vue";
+import BoardBody from "./components/BoardBody.vue";
 export default {
-  name: 'App',
+  created() {
+    if (localStorage.length > 1) {
+      for (let i = 1; i < localStorage.length; i++) {
+        const curKey = localStorage.key(i);
+        this.$store.commit("addArticle", {
+          ID: curKey,
+          title: localStorage.getItem(curKey),
+        });
+      }
+    }
+  },
   components: {
-    HelloWorld
-  }
-}
+    BoardHeader: BoardHeader,
+    BoardBody: BoardBody,
+  },
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
